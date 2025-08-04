@@ -21,4 +21,10 @@ Firebase provides with three types of provider: Native, Additional(Googel, Faceb
 Click on Email/Password and then click on enable and save
 
 In FirebaseConfig.jsx first import { getAuth } from "firebase/auth";
+
+and then export const auth = getAuth(app);
+
+now use createUserWithEmailAndPassword(auth, email, password) in your signUp page
+
+if you refresh the authentication you can see all the three users
 ```
