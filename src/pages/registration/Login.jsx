@@ -1,6 +1,34 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { auth } from '../../firebase/FirebaseConfig';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { useState } from 'react';
 
 function Login() {
+    try {
+
+        const navigate = useNavigate();
+
+    const [ email, setEmail ] = useState('');
+        const [ password, setPassword ] = useState('');
+    
+        const signIn = async () => {
+            if(!email || !password) {
+                alert("Please fill in all fields");
+                return;
+            }
+            try {
+                const user = await signInWithEmailAndPassword(auth, email, password);
+            alert(`SignIn Succesfull`);
+            console.log("User signed in:", user.user);
+            localStorage.setItem('user', JSON.stringify(user)); // Store user info in localStorage
+            setEmail('');
+            setPassword('');
+            navigate('/'); // Redirect to home or another page after login
+            } catch (error) {
+                console.error("Error signing up:", error);
+            }
+    
+        }
    
     return (
         <div className=' flex justify-center items-center h-screen'>
@@ -9,7 +37,10 @@ function Login() {
                     <h1 className='text-center text-white text-xl mb-4 font-bold'>Login</h1>
                 </div>
                 <div>
-                    <input type="email"
+                    <input 
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         name='email'
                         className=' bg-gray-600 mb-4 px-2 py-2 w-full lg:w-[20em] rounded-lg text-white placeholder:text-gray-200 outline-none'
                         placeholder='Email'
@@ -18,13 +49,16 @@ function Login() {
                 <div>
                     <input
                         type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                         className=' bg-gray-600 mb-4 px-2 py-2 w-full lg:w-[20em] rounded-lg text-white placeholder:text-gray-200 outline-none'
                         placeholder='Password'
                     />
                 </div>
                 <div className=' flex justify-center mb-3'>
                     <button
-                        className=' bg-yellow-500 w-full text-black font-bold  px-2 py-2 rounded-lg'>
+                        onClick={signIn}
+                        className=' bg-yellow-500 w-full text-black font-bold  px-2 py-2 rounded-lg cursor-pointer hover:bg-yellow-600 transition-all duration-300'>
                         Login
                     </button>
                 </div>
@@ -34,6 +68,9 @@ function Login() {
             </div>
         </div>
     )
+    } catch (error) {
+        console.error("Error initializing Firebase:", error);
+    }
 }
 
 export default Login

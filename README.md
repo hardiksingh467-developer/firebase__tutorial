@@ -26,5 +26,9 @@ and then export const auth = getAuth(app);
 
 now use createUserWithEmailAndPassword(auth, email, password) in your signUp page
 
+similarly you can use
+
+now use signInWithEmailAndPassword(auth, email, password) in your login page
+
 if you refresh the authentication you can see all the three users
 ```
