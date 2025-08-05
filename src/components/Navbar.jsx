@@ -7,7 +7,7 @@ function Navbar() {
 
     const user = JSON.parse(localStorage.getItem('user'));
 
-    console.log("user is ", user);
+    // console.log("user is ", user);
 
     const logout = () =>  {
         localStorage.clear('user');
