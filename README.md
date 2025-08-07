@@ -99,10 +99,12 @@ const data = onSnapshot(dbQuery, (QuerySnapshot) => {
                 });
 
 for UPDATE operation
-import { addDoc } from "firebase/firestore";
-await addDoc(collectionRef, addDataPayload);
+import { fireDB } from "../../firebase/FirebaseConfig";
+import { setDoc, doc } from "firebase/firestore";
+await setDoc(doc(fireDB, "collectionName", rowEntry.id), udpateDataPayload);    
 
 for DELETE operation
-import { addDoc } from "firebase/firestore";
-await addDoc(collectionRef, addDataPayload);
+import { fireDB } from "../../firebase/FirebaseConfig";
+import { deleteDoc, doc } from "firebase/firestore";
+await deleteDoc(doc(fireDB, "collectionName", rowEntry.id));
 ```

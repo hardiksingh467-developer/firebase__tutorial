@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import myContext from '../../context/data/myContext';
 
 function ProductTable() {
+    try {
     const context = useContext(myContext);
     const { allProducts } = context;
     return (
@@ -51,10 +52,10 @@ function ProductTable() {
                                     </th>
                                 </tr>
                             </thead>
-                            {allProducts.map((item, index) => {
+                            {allProducts?.map((item, index) => {
                                 const { title, price, imageUrl, category, date } = item;
                                 return (
-                                    <tbody>
+                                    <tbody key={item.id}>
                                         <tr className="bg-gray-700 border-b border-gray-500 text-white ">
                                             <td className="px-6 py-4">{index + 1}.</td>
                                             <td className="px-6 py-4">
@@ -89,6 +90,9 @@ function ProductTable() {
             </div>
         </div>
     )
+    } catch (error) {
+        console.log("Error is ", error);
+    }
 }
 
 export default ProductTable

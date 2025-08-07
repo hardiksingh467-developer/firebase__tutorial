@@ -1,10 +1,11 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
-import myContext from '../../context/data/myContext'
+// import MyContext from '../../context/data/myContext'
+import MyContext from '../../context/data/myContext';
 
 function AddProduct() {
-    const context = useContext(myContext);
-    const { products, setProducts, addProduct } = context;
+    const context = useContext(MyContext);
+    const { product, setProduct, addProduct } = context;
     return (
         <div>
             <div className=' flex justify-center items-center h-screen'>
@@ -20,8 +21,12 @@ function AddProduct() {
                     </div>
                     <div>
                         <input
-                            value={products.title}
-                            onChange={(e) => setProducts({ ...products, title: e.target.value })}
+                            value={product?.title}
+                            onChange={(e) => {
+                                console.log("key pressed");
+                                console.log("key pressed", e.target.value);
+                                setProduct({ ...product, title: e.target.value })
+                            }}
                             type="text"
                             name='title'
                             className=' bg-gray-600 mb-4 px-2 py-2 w-full lg:w-[20em] rounded-lg text-white placeholder:text-gray-200 outline-none'
@@ -30,8 +35,8 @@ function AddProduct() {
                     </div>
                     <div>
                         <input
-                            value={products.price}
-                            onChange={(e) => setProducts({ ...products, price: e.target.value })}
+                            value={product.price}
+                            onChange={(e) => setProduct({ ...product, price: e.target.value })}
                             type="text"
                             name='price'
                             className=' bg-gray-600 mb-4 px-2 py-2 w-full lg:w-[20em] rounded-lg text-white placeholder:text-gray-200 outline-none'
@@ -40,8 +45,8 @@ function AddProduct() {
                     </div>
                     <div>
                         <input
-                            value={products.imageUrl}
-                            onChange={(e) => setProducts({ ...products, imageUrl: e.target.value })}
+                            value={product.imageUrl}
+                            onChange={(e) => setProduct({ ...product, imageUrl: e.target.value })}
                             type="text"
                             name='imageUrl'
                             className=' bg-gray-600 mb-4 px-2 py-2 w-full lg:w-[20em] rounded-lg text-white placeholder:text-gray-200 outline-none'
@@ -50,8 +55,8 @@ function AddProduct() {
                     </div>
                     <div>
                         <input
-                            value={products.category}
-                            onChange={(e) => setProducts({ ...products, category: e.target.value })}
+                            value={product.category}
+                            onChange={(e) => setProduct({ ...product, category: e.target.value })}
                             type="text"
                             name='category'
                             className=' bg-gray-600 mb-4 px-2 py-2 w-full lg:w-[20em] rounded-lg text-white placeholder:text-gray-200 outline-none'
@@ -62,7 +67,7 @@ function AddProduct() {
                         <button
                         onClick={addProduct}
                             className=' bg-blue-500 w-full text-white font-bold  px-2 py-2 rounded-lg'>
-                            Login
+                            Add Product
                         </button>
                     </div>
                 </div>

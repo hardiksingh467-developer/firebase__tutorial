@@ -4,7 +4,7 @@ import { fireDB } from "../../firebase/FirebaseConfig";
 
 // dependency imports
 import { useEffect, useState } from 'react'
-import { addDoc, collection, onSnapshot, orderBy, query, QuerySnapshot, Timestamp } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, onSnapshot, orderBy, query, QuerySnapshot, setDoc, Timestamp } from "firebase/firestore";
 
 const myState = (props) => {
 
@@ -63,13 +63,35 @@ const myState = (props) => {
             }
     }
 
+    const editProduct = async (item) => {
+        try {
+            await setDoc(doc(fireDB, "products", item.id), item);
+            getProducts();
+            setTimeout(() => { window.location.href = "/"}, 800);
+        } catch (error) {
+            console.log("Error is ", error);
+        }
+        setProduct("");
+    }
+
+    const deleteProduct = async (item) => {
+        try {
+            await deleteDoc(doc(fireDB, "products", item.id));
+            getProducts();
+            setTimeout(() => { window.location.href = "/"}, 800);
+        } catch (error) {
+            console.log("Error is ", error);
+        }
+        setProduct("");
+    }
+
     useEffect(() => {
         getProducts();
     }, [])
 
     const name = "Kamal";
   return (
-    <MyContext.Provider value ={{ name, product, setAllProducts, addProduct, getProducts}}>{props.children}</MyContext.Provider>
+    <MyContext.Provider value ={{ name, product, setProduct, allProducts, setAllProducts, addProduct, getProducts}}>{props.children}</MyContext.Provider>
   )
 }
 
