@@ -32,3 +32,77 @@ now use signInWithEmailAndPassword(auth, email, password) in your login page
 
 if you refresh the authentication you can see all the three users
 ```
+
+### CRUD
+```
+To begin with CRUD operations we first need to creata Database, that is, Firestore
+
+Open firestore.com, login to your account, then go to console
+Click on the project you are using
+Now in the sidebar, Click on Build, then Click on FireStore Database
+Now click on Create Database
+Now make sure you have Production Mode clicked otherwise your DB will be removed in 30 days
+Click on Next and Create
+Now go to Rules
+
+Make :-
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
+
+To :-
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}
+
+and then click on Publish
+
+Now in your FirebaseConfig.jsx 
+import { getFirestore } from "firebase/firestore"
+and
+export const fireDB = getFirestore(app);
+
+Get the collection in Context or in component, it is more preferred to import it in a context and then export the function using it, similar to Models in nodeJS
+
+import { collection } from "firebase/firestore";
+import { fireDB } from "../../firebase/FirebaseConfig";
+const collectionRef = collection(fireDB, "collectionName");
+
+for CREATE operation
+import { addDoc } from "firebase/firestore";
+await addDoc(collectionRef, addDataPayload);
+
+for READ operation
+import { query, collection, orderBy, onSnapshot, QuerySnapshot } from "firebase/firestore";
+const dbQuery = query(
+                    collection(fireDB, "collectionName"),
+                    orderBy("fieldName"),
+                );
+
+const data = onSnapshot(dbQuery, (QuerySnapshot) => {
+                    let collectionRows = [];
+                    QuerySnapshot.forEach((doc) => {
+                        collectionRows.push({ ...doc.data(), id: doc.id });
+                    });
+                });
+
+for UPDATE operation
+import { addDoc } from "firebase/firestore";
+await addDoc(collectionRef, addDataPayload);
+
+for DELETE operation
+import { addDoc } from "firebase/firestore";
+await addDoc(collectionRef, addDataPayload);
+```
